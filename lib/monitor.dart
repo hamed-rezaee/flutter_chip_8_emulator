@@ -17,9 +17,9 @@ class Monitor {
     }
   }
 
-  setPixel(x, y) {
-    x.clamp(0, columns - 1);
-    y.clamp(0, rows - 1);
+  setPixel(int x, int y) {
+    x = x.clamp(0, columns - 1);
+    y = y.clamp(0, rows - 1);
 
     buffer[y * columns + x] ^= true;
 
