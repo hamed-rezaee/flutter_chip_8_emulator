@@ -22,7 +22,7 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   final Chip8 chip8 = Chip8(monitor: Monitor(), keyboard: Keyboard());
 
-  final fps = 60;
+  final int fps = 60;
   late final Duration fpsInterval;
   late final DateTime startTime;
   late DateTime now;
@@ -34,15 +34,16 @@ class _MainAppState extends State<MainApp> {
     super.initState();
 
     loadRomFromAssets(context, 'brick.ch8').then(
-      (program) {
+      (Uint8List program) {
         fpsInterval = Duration(milliseconds: 1000 ~/ fps);
         startTime = DateTime.now();
         then = startTime;
 
-        chip8.loadSpritsIntoMemory();
-        chip8.loadProgramIntoMemory(program);
+        chip8
+          ..loadSpritsIntoMemory()
+          ..loadProgramIntoMemory(program);
 
-        Timer.periodic(fpsInterval, (timer) {
+        Timer.periodic(fpsInterval, (Timer timer) {
           now = DateTime.now();
           elapsed = now.difference(then);
 

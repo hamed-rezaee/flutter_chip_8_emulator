@@ -17,7 +17,7 @@ class Chip8 {
 
   final Uint8List _memory = Uint8List(memorySize);
   final Uint8List _v = Uint8List(registerCount);
-  final List<int> _stack = [];
+  final List<int> _stack = <int>[];
 
   int _delayTimer = 0;
   int _soundTimer = 0;
@@ -63,10 +63,10 @@ class Chip8 {
         }
         break;
       case 0x6000:
-        _v[x] = (instruction & 0x00FF);
+        _v[x] = instruction & 0x00FF;
         break;
       case 0x7000:
-        _v[x] += (instruction & 0x00FF);
+        _v[x] += instruction & 0x00FF;
         break;
       case 0x8000:
         switch (instruction & 0x000F) {
@@ -120,11 +120,11 @@ class Chip8 {
         _pc = (instruction & 0x0FFF) + _v[0];
         break;
       case 0xC000:
-        _v[x] = (Random().nextInt(0xFF) & (instruction & 0xFF));
+        _v[x] = Random().nextInt(0xFF) & (instruction & 0xFF);
         break;
       case 0xD000:
-        int width = 8;
-        int height = instruction & 0x000F;
+        const int width = 8;
+        final int height = instruction & 0x000F;
 
         _v[0xF] = 0;
 
@@ -167,7 +167,7 @@ class Chip8 {
           case 0x000A:
             _isPaused = true;
 
-            keyboard.onKeyPress = (key) {
+            keyboard.onKeyPress = (int key) {
               _v[x] = key;
               _isPaused = false;
             };
@@ -214,7 +214,7 @@ class Chip8 {
   void cpuCycle() {
     for (int i = 0; i < speed; i++) {
       if (!_isPaused) {
-        int instruction = _memory[_pc] << 8 | _memory[_pc + 1];
+        final int instruction = _memory[_pc] << 8 | _memory[_pc + 1];
         step(instruction);
       }
     }
@@ -225,7 +225,7 @@ class Chip8 {
   }
 
   void loadSpritsIntoMemory() {
-    const sprites = [
+    const List<int> sprites = <int>[
       0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
       0x20, 0x60, 0x20, 0x20, 0x70, // 1
       0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2

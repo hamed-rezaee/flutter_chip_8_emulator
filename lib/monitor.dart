@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chip_8_emulator/constants.dart';
 
 class Monitor {
-  final List<bool> buffer = List.filled(rows * columns, true);
+  final List<bool> buffer = List<bool>.filled(rows * columns, true);
 
   void draw(Canvas canvas) {
-    final paint = Paint();
+    final Paint paint = Paint();
 
     for (int y = 0; y < rows; y++) {
       for (int x = 0; x < columns; x++) {
@@ -17,13 +17,11 @@ class Monitor {
     }
   }
 
-  setPixel(int x, int y) {
-    x = x.clamp(0, columns - 1);
-    y = y.clamp(0, rows - 1);
+  bool setPixel(int x, int y) {
+    final int clampedX = x.clamp(0, columns - 1);
+    final int clampedY = y.clamp(0, rows - 1);
 
-    buffer[y * columns + x] ^= true;
-
-    return buffer[y * columns + x];
+    return buffer[clampedY * columns + clampedX] ^= true;
   }
 
   void clear() => buffer.fillRange(0, buffer.length, true);

@@ -1,25 +1,25 @@
 import 'package:flutter/services.dart';
 
 class Keyboard {
-  int? keysPressed;
+  int? _keysPressed;
   Function(int)? onKeyPress;
 
   void onKeyDown(KeyDownEvent event) {
-    int? key = _keyMap[event.logicalKey];
+    final int? key = _keyMap[event.logicalKey];
 
     if (key != null) {
-      keysPressed = key;
+      _keysPressed = key;
 
       onKeyPress?.call(key);
     }
   }
 
-  void onKeyUp(KeyUpEvent event) => keysPressed = null;
+  void onKeyUp(KeyUpEvent event) => _keysPressed = null;
 
-  bool isKeyPressed(int keyCode) => keysPressed == keyCode;
+  bool isKeyPressed(int keyCode) => _keysPressed == keyCode;
 }
 
-final Map<LogicalKeyboardKey, int> _keyMap = {
+final Map<LogicalKeyboardKey, int> _keyMap = <LogicalKeyboardKey, int>{
   LogicalKeyboardKey.digit1: 0x01,
   LogicalKeyboardKey.digit2: 0x02,
   LogicalKeyboardKey.digit3: 0x03,
